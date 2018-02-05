@@ -10,6 +10,7 @@ var db        = {};
 
 
 //var sequelize = new Sequelize('postgres://localhost:5432/customerdb2_development');
+console.log(process.env);
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
