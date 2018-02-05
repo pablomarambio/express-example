@@ -4,8 +4,12 @@ block content
   h1= titulo
 
   div(class="col-md-10")
-    h2 
-      = "Clientes de " + tenant.email
+    if tenant.Customers.length == 0
+      h2 
+        = tenant.email 
+        |&nbsp; no tiene clientes
+    else
+      h2 Clientes por tenant
 
     ul
       each cliente in tenant.Customers
@@ -15,3 +19,5 @@ block content
               = cliente.nombre_completo + "(" + cliente.id + ")"
           p
             = cliente.rut
+            | &nbsp;
+            a(href="/tenants/" + tenant.id + "/customers/" + cliente.id + "/destroy?return_to_tenant_view=1",  class="btn btn-xs btn-warning") borrar

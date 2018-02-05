@@ -53,6 +53,7 @@ router.get('/:Tenant_id/customers/:Customer_id/destroy', function (req, res) {
       id: req.params.Customer_id
     }
   }).then(function() {
+    if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
     res.redirect('/');
   });
 });
