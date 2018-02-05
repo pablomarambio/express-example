@@ -11,8 +11,8 @@ var db        = {};
 
 //var sequelize = new Sequelize('postgres://localhost:5432/customerdb2_development');
 console.log(process.env);
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (process.env.NODE_ENV == "production") {
+  var sequelize = new Sequelize("postgres://imbrnhuwhpwrxv:57c92dbef266684531bb9701a01c3d0652713101bc9cd55406f32921c3dfd5ed@ec2-54-197-253-122.compute-1.amazonaws.com:5432/d29q60huol2cdf");
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
