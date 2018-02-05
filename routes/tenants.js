@@ -7,7 +7,7 @@ router.post('/create', function(req, res) {
   models.Tenant.create({
     email: req.body.email
   }).then(function() {
-    res.redirect('/');
+    res.redirect('/setup');
   });
 });
 
@@ -17,7 +17,7 @@ router.get('/:Tenant_id/destroy', function(req, res) {
       id: req.params.Tenant_id
     }
   }).then(function() {
-    res.redirect('/');
+    res.redirect('/setup');
   });
 });
 
@@ -52,7 +52,7 @@ router.post('/:Tenant_id/customers', function (req, res) {
           TenantId: req.params.Tenant_id
         }).then((cust) => {
           if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
-          res.redirect('/');
+          res.redirect('/' + req.params.Tenant_id + "/customers");
         });
       }
     })
@@ -61,7 +61,7 @@ router.post('/:Tenant_id/customers', function (req, res) {
       console.log(errMsg);
       req.flash('error', errMsg);
       if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
-      res.redirect('/');
+      res.redirect('/' + req.params.Tenant_id + "/customers");
     });
 });
 
@@ -72,7 +72,7 @@ router.get('/:Tenant_id/customers/:Customer_id/destroy', function (req, res) {
     }
   }).then(function() {
     if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
-    res.redirect('/');
+    res.redirect('/tenants/' + req.params.Tenant_id + "/customers");
   });
 });
 

@@ -2,10 +2,31 @@ extends layout
 
 block content
   h1= titulo
-
+  hr
   div.container-fluid
     div.row
-      div.col-md-4
+      div.col-md-5
+        p
+          | Para crear un cliente con nombre 
+          code "Jose Contreras"
+          |&nbsp;y RUT 
+          code 14.569.484-1
+          |, bajo el tenant
+          code :tenant_id
+          |, llamar a 
+        p
+          code POST /tenants/:tenant_id/customers
+          |&nbsp;incluyendo el siguiente form:
+          code { nombre_completo: "Jose Contreras", rut: 14569484 }
+      div.col-md-7
+        p
+          | Para listar todos los clientes del tenant
+          code :tenant_id
+          |, llamar a 
+        p
+          code GET /tenants/:tenant_id/customers
+    div.row
+      div.col-md-5
         h2 Crear cliente
 
         form(action="/tenants/" + tenant.id + "/customers?return_to_tenant_view=1", method="post", class="well")
@@ -19,7 +40,7 @@ block content
             input(type="text", name="rut", class="input-sm form-control")
           div(class="form-group")
             input(type="submit", class="btn btn-md btn-primary", value="Crear")
-      div.col-md-8
+      div.col-md-7
         if tenant.Customers.length == 0
           h2 
             = tenant.email 

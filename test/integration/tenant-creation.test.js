@@ -20,27 +20,16 @@ describe('app', function () {
   });
   describe('web frontend', function () {
 
-    describe('/index', function () {
+    describe('/setup', function () {
 
       it('loads correctly', function (done) {
-        request(app).get('/').expect(200, done);
+        request(app).get('/setup').expect(200, done);
       });
 
       it('lists a tenant if there is one', function (done) {
         this.models.Tenant.create({ email: 'tenant@tenant.com' }).then(function () {
-          request(app).get('/').expect(/tenant@tenant.com/, done);
+          request(app).get('/setup').expect(/tenant@tenant.com/, done);
         })
-      });
-
-      it('lists the customers for the tenant', function (done) {
-        var tenantId;
-        this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
-        .then(function (tenant) {
-          tenantId = tenant.id;
-          this.models.Customer.create({ nombre_completo: 'johndoe task', TenantId: tenantId });
-        }).then(function () {
-          request(app).get('/').expect(/johndoe task/, done);
-        });
       });
 
     });
