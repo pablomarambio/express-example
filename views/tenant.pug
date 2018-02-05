@@ -3,21 +3,40 @@ extends layout
 block content
   h1= titulo
 
-  div(class="col-md-10")
-    if tenant.Customers.length == 0
-      h2 
-        = tenant.email 
-        |&nbsp; no tiene clientes
-    else
-      h2 Clientes por tenant
+  div.container-fluid
+    div.row
+      div.col-md-4
+        h2 Crear cliente
 
-    ul
-      each cliente in tenant.Customers
-        li
-          p
-            strong
-              = cliente.nombre_completo + "(" + cliente.id + ")"
-          p
-            = cliente.rut
-            | &nbsp;
-            a(href="/tenants/" + tenant.id + "/customers/" + cliente.id + "/destroy?return_to_tenant_view=1",  class="btn btn-xs btn-warning") borrar
+        form(action="/tenants/" + tenant.id + "/customers?return_to_tenant_view=1", method="post", class="well")
+          div(class="form-group")
+            label(for="nombre_completo")
+              | Nombre Completo
+            input(type="text", name="nombre_completo", class="input-sm form-control")
+          div(class="form-group")
+            label(for="rut")
+              | RUT (sin puntos, guión ni DV)
+            input(type="text", name="rut", class="input-sm form-control")
+          div(class="form-group")
+            input(type="submit", class="btn btn-md btn-primary", value="Crear")
+      div.col-md-8
+        if tenant.Customers.length == 0
+          h2 
+            = tenant.email 
+            |&nbsp; no tiene clientes
+        else
+          h2 
+            | Lista de clientes
+        table.table
+          tr
+            th #
+            th Nombre
+            th RUT
+            th Acciones
+          each cliente in tenant.Customers
+            tr
+              td= cliente.id
+              td= cliente.nombre_completo
+              td= cliente.rut
+              td
+                a(href="/tenants/" + tenant.id + "/customers/" + cliente.id + "/destroy?return_to_tenant_view=1",  class="btn btn-sm btn-warning") borrar

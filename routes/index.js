@@ -20,8 +20,9 @@ router.get('/tenant-view/:id', function(req, res) {
   }).then(function(tenant) {
     if(!tenant) {return res.status(404).send("Tenant no encontrado");}
     res.render('tenant', {
-      titulo: 'Vista de un tenant',
-      tenant: tenant
+      titulo: 'Tenant ' + tenant.email,
+      tenant: tenant,
+      flash: req.flash('error')
     });
   });
 });
