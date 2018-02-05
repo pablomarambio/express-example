@@ -10,7 +10,7 @@ var db        = {};
 
 
 //var sequelize = new Sequelize('postgres://localhost:5432/customerdb2_development');
-console.log(process.env);
+//console.log(process.env);
 if (process.env.NODE_ENV == "production") {
   var sequelize = new Sequelize("postgres://imbrnhuwhpwrxv:57c92dbef266684531bb9701a01c3d0652713101bc9cd55406f32921c3dfd5ed@ec2-54-197-253-122.compute-1.amazonaws.com:5432/d29q60huol2cdf");
 } else {
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV == "production") {
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    //console.log('Connection has been established successfully.');
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);

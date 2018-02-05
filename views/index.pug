@@ -4,35 +4,35 @@ block content
   h1= title
 
   div(class="col-md-4")
-    h2 Create user
+    h2 Create tenant
 
-    form(action="/users/create", method="post", class="well")
+    form(action="/tenants/create", method="post", class="well")
       div(class="form-group")
-        label(for="username")
-          | Username
-        input(type="text", name="username", class="form-control")
+        label(for="email")
+          | Email
+        input(type="text", name="email", class="form-control")
       input(type="submit" class="btn btn-default")
 
   div(class="col-md-6")
-    h2 Users
+    h2 Tenants
 
     ul
-    each user in users
+    each tenant in tenants
       li
         strong
-          = user.username
+          = tenant.email
         | &nbsp;
-        a(href="/users/" + user.id + "/destroy", class="btn btn-xs btn-warning") delete
+        a(href="/tenants/" + tenant.id + "/destroy", class="btn btn-xs btn-warning") delete
         ul
           li
             | Create task
-            form(action="/users/" + user.id + "/tasks/create", method="post", class="form-inline")
+            form(action="/tenants/" + tenant.id + "/customers/create", method="post", class="form-inline")
               div(class="form-group")
                 input(type="text", name="title", class="input-sm form-control")
                 input(type="submit", class="btn btn-sm btn-default")
-          each task in user.Tasks
+          each task in tenant.Customers
             li
               strong
                 = task.title
               | &nbsp;
-              a(href="/users/" + user.id + "/tasks/" + task.id + "/destroy",  class="btn btn-xs btn-warning") delete
+              a(href="/tenants/" + tenant.id + "/customers/" + task.id + "/destroy",  class="btn btn-xs btn-warning") delete

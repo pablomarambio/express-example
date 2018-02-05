@@ -3,36 +3,36 @@ var express = require('express');
 var router  = express.Router();
 
 router.post('/create', function(req, res) {
-  models.User.create({
-    username: req.body.username
+  models.Tenant.create({
+    email: req.body.email
   }).then(function() {
     res.redirect('/');
   });
 });
 
-router.get('/:user_id/destroy', function(req, res) {
-  models.User.destroy({
+router.get('/:Tenant_id/destroy', function(req, res) {
+  models.Tenant.destroy({
     where: {
-      id: req.params.user_id
+      id: req.params.Tenant_id
     }
   }).then(function() {
     res.redirect('/');
   });
 });
 
-router.post('/:user_id/tasks/create', function (req, res) {
-  models.Task.create({
+router.post('/:Tenant_id/customers/create', function (req, res) {
+  models.Customer.create({
     title: req.body.title,
-    UserId: req.params.user_id
+    TenantId: req.params.Tenant_id
   }).then(function() {
     res.redirect('/');
   });
 });
 
-router.get('/:user_id/tasks/:task_id/destroy', function (req, res) {
-  models.Task.destroy({
+router.get('/:Tenant_id/customers/:Customer_id/destroy', function (req, res) {
+  models.Customer.destroy({
     where: {
-      id: req.params.task_id
+      id: req.params.Customer_id
     }
   }).then(function() {
     res.redirect('/');

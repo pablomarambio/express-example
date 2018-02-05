@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Task = sequelize.define('Task', {
+  var Customer = sequelize.define('Customer', {
     title: DataTypes.STRING
   });
 
-  Task.associate = function (models) {
-    models.Task.belongsTo(models.User, {
+  Customer.associate = function (models) {
+    models.Customer.belongsTo(models.Tenant, {
       onDelete: "CASCADE",
       foreignKey: {
         allowNull: false
@@ -13,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return Task;
+  return Customer;
 };
