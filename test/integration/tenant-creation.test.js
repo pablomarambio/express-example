@@ -80,6 +80,11 @@ describe("api", function () {
     });
   });
 
+  it('returns 404 when trying to list the customers from an unknown tenant', function (done) {
+    var tenantId = 234234234;
+    request(app).get('/tenants/' + tenantId + "/customers").expect(404, done);
+  });
+
 
   it('creates a customer', function (done) {
     var tenantId;

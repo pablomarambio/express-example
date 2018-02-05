@@ -25,6 +25,7 @@ router.get('/:Tenant_id/customers', function(req, res) {
     where: { id: req.params.Tenant_id }, 
     include: [ models.Customer ]
   }).then(function(tenant) {
+    if(!tenant) {return res.status(404).send("Tenant no encontrado");}
     res.send(tenant.Customers);
   });
 });
