@@ -1,17 +1,17 @@
 module.exports = {
   development: {
-    dialect: "sqlite",
-    storage: "./db.development.sqlite"
+    dialect: "postgres",
+    database: 'customerdb2_development'
   },
   test: {
-    dialect: "sqlite",
-    storage: ":memory:"
+    dialect: "postgres",
+    database: 'customerdb2_test'
   },
   production: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOSTNAME,
-    dialect: 'mysql',
+    dialect: 'postgres'
   }
 };
