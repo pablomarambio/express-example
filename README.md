@@ -64,7 +64,7 @@ npm install --save sequelize sequelize-cli sqlite3
 # generate models
 node_modules/.bin/sequelize init
 node_modules/.bin/sequelize model:create --name User --attributes username:string
-node_modules/.bin/sequelize model:create --name Task --attributes title:string
+node_modules/.bin/sequelize model:create --name Task --attributes nombre_completo:string
 ```
 
 We are using `.sequelizerc` setup change config path for migrations. You can read more about this in [migration docs](http://docs.sequelizejs.com/manual/tutorial/migrations.html#the-sequelizerc-file)

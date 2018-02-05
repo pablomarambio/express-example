@@ -8,8 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      nombre_completo: {
         type: Sequelize.STRING
+      },
+      rut: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

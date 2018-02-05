@@ -30,10 +30,24 @@ describe('tenant creation page', function () {
   });
 
   it('lists the customers for the tenant if available', function (done) {
-    this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this).then(function (user) {
-      return this.models.Customer.create({ title: 'johndoe task', TenantId: user.id });
+    var tenantId;
+    this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
+    .then(function (tenant) {
+      tenantId = tenant.id;
+      this.models.Customer.create({ nombre_completo: 'johndoe task', TenantId: tenantId });
     }).then(function () {
       request(app).get('/').expect(/johndoe task/, done);
+    });
+  });
+
+  it('lists the customers for the tenant', function (done) {
+    var tenantId;
+    this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
+    .then(function (tenant) {
+      tenantId = tenant.id;
+      this.models.Customer.create({ nombre_completo: 'johndoe', TenantId: tenantId });
+    }).then(function () {
+      request(app).get('/tenants/' + tenantId + "/customers").expect(/johndoe/, done);
     });
   });
 });

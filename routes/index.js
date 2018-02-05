@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
     include: [ models.Customer ]
   }).then(function(tenants) {
     res.render('index', {
-      title: 'Sequelize: Express Example',
+      titulo: 'Sequelize: Express Example',
       tenants: tenants
     });
   });

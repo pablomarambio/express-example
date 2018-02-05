@@ -20,9 +20,19 @@ router.get('/:Tenant_id/destroy', function(req, res) {
   });
 });
 
+router.get('/:Tenant_id/customers', function(req, res) {
+  models.Tenant.find({ 
+    where: { id: req.params.Tenant_id }, 
+    include: [ models.Customer ]
+  }).then(function(tenant) {
+    res.send(tenant.Customers);
+  });
+});
+
 router.post('/:Tenant_id/customers/create', function (req, res) {
   models.Customer.create({
-    title: req.body.title,
+    nombre_completo: req.body.nombre_completo,
+    rut: req.body.rut,
     TenantId: req.params.Tenant_id
   }).then(function() {
     res.redirect('/');

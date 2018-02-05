@@ -15,8 +15,8 @@ describe('models/customer', function () {
   describe('create', function () {
     it('creates a customer', function () {
       return this.Tenant.create({ email: 'tenant@tenant.com' }).bind(this).then(function (tenant) {
-        return this.Customer.create({ title: 'a title', TenantId: tenant.id }).then(function (customer) {
-          expect(customer.title).to.equal('a title');
+        return this.Customer.create({ nombre_completo: 'Pepito', TenantId: tenant.id }).then(function (customer) {
+          expect(customer.nombre_completo).to.equal('Pepito');
         });
       });
     });

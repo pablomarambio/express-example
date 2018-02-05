@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  h1= title
+  h1= titulo
 
   div(class="col-md-4")
-    h2 Create tenant
+    h2 Crear tenant
 
     form(action="/tenants/create", method="post", class="well")
       div(class="form-group")
@@ -14,25 +14,29 @@ block content
       input(type="submit" class="btn btn-default")
 
   div(class="col-md-6")
-    h2 Tenants
+    h2 Clientes por tenant
 
     ul
     each tenant in tenants
       li
         strong
-          = tenant.email
+          = tenant.email + "(" + tenant.id + ")"
         | &nbsp;
-        a(href="/tenants/" + tenant.id + "/destroy", class="btn btn-xs btn-warning") delete
+        a(href="/tenants/" + tenant.id + "/destroy", class="btn btn-xs btn-warning") borrar
         ul
           li
-            | Create task
+            | Crear cliente
             form(action="/tenants/" + tenant.id + "/customers/create", method="post", class="form-inline")
               div(class="form-group")
-                input(type="text", name="title", class="input-sm form-control")
+                input(type="text", name="nombre_completo", class="input-sm form-control")
+                input(type="text", name="rut", class="input-sm form-control")
                 input(type="submit", class="btn btn-sm btn-default")
-          each task in tenant.Customers
+          each cliente in tenant.Customers
             li
-              strong
-                = task.title
+              p
+                strong
+                  = cliente.nombre_completo + "(" + cliente.id + ")"
+              p
+                = cliente.rut
               | &nbsp;
-              a(href="/tenants/" + tenant.id + "/customers/" + task.id + "/destroy",  class="btn btn-xs btn-warning") delete
+              a(href="/tenants/" + tenant.id + "/customers/" + cliente.id + "/destroy",  class="btn btn-xs btn-warning") borrar
