@@ -20,38 +20,53 @@ describe('app', function () {
   });
   describe('web frontend', function () {
 
-    it('loads correctly', function (done) {
-      request(app).get('/').expect(200, done);
-    });
+    describe('/index', function () {
 
-    it('lists a tenant if there is one', function (done) {
-      this.models.Tenant.create({ email: 'tenant@tenant.com' }).then(function () {
-        request(app).get('/').expect(/tenant@tenant.com/, done);
-      })
-    });
-
-    it('lists the customers for the tenant at index', function (done) {
-      var tenantId;
-      this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
-      .then(function (tenant) {
-        tenantId = tenant.id;
-        this.models.Customer.create({ nombre_completo: 'johndoe task', TenantId: tenantId });
-      }).then(function () {
-        request(app).get('/').expect(/johndoe task/, done);
+      it('loads correctly', function (done) {
+        request(app).get('/').expect(200, done);
       });
-    });
 
-    it('lists the customers for the tenant at api', function (done) {
-      var tenantId;
-      this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
-      .then(function (tenant) {
-        tenantId = tenant.id;
-        this.models.Customer.create({ nombre_completo: 'johndoe', TenantId: tenantId });
-      }).then(function () {
-        request(app).get('/tenants/' + tenantId + "/customers").expect(/johndoe/, done);
+      it('lists a tenant if there is one', function (done) {
+        this.models.Tenant.create({ email: 'tenant@tenant.com' }).then(function () {
+          request(app).get('/').expect(/tenant@tenant.com/, done);
+        })
       });
+
+      it('lists the customers for the tenant', function (done) {
+        var tenantId;
+        this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
+        .then(function (tenant) {
+          tenantId = tenant.id;
+          this.models.Customer.create({ nombre_completo: 'johndoe task', TenantId: tenantId });
+        }).then(function () {
+          request(app).get('/').expect(/johndoe task/, done);
+        });
+      });
+
     });
 
+    describe('/tenant-view', function () {
+
+      it('loads correctly', function (done) {
+        this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
+        .then(function (tenant) {
+          request(app).get('/tenant-view/' + tenant.id).expect(200, done);
+        });
+      });
+
+      it('lists the customers for the tenant', function (done) {
+        var tenantId;
+        this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
+        .then(function (tenant) {
+          tenantId = tenant.id;
+          this.models.Customer.create({ nombre_completo: 'juan', rut: 8457638, TenantId: tenantId });
+        })
+        .then(function () {
+          request(app).get('/tenant-view/' + tenantId).expect(/juan/, done);
+        });
+      });
+
+    });
   });
 
   describe("api", function () {
