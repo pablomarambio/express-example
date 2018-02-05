@@ -29,7 +29,7 @@ describe('tenant creation page', function () {
     })
   });
 
-  it('lists the customers for the tenant if available', function (done) {
+  it('lists the customers for the tenant at index', function (done) {
     var tenantId;
     this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
     .then(function (tenant) {
@@ -40,14 +40,73 @@ describe('tenant creation page', function () {
     });
   });
 
-  it('lists the customers for the tenant', function (done) {
+  it('lists the customers for the tenant at api', function (done) {
     var tenantId;
-    this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
+    this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
     .then(function (tenant) {
       tenantId = tenant.id;
       this.models.Customer.create({ nombre_completo: 'johndoe', TenantId: tenantId });
     }).then(function () {
       request(app).get('/tenants/' + tenantId + "/customers").expect(/johndoe/, done);
+    });
+  });
+
+});
+
+describe("api", function () {
+
+
+  before(function () {
+      return require('../../models').sequelize.sync();
+  });
+  
+  beforeEach(function () {
+    this.models = require('../../models');
+
+    return Bluebird.all([
+      //this.models.Task.destroy({ truncate: true, cascade: true }),
+      this.models.Tenant.destroy({ truncate: true, cascade: true })
+    ]);
+  });
+
+  it('lists the customers for the tenant', function (done) {
+    var tenantId;
+    this.models.Tenant.create({ username: 'tenant@tenant.com' }).bind(this)
+    .then(function (tenant) {
+      tenantId = tenant.id;
+      this.models.Customer.create({ nombre_completo: 'bea', rut: 7956772, TenantId: tenantId });
+    }).then(function () {
+      request(app).get('/tenants/' + tenantId + "/customers").expect(/bea/, done);
+    });
+  });
+
+
+  it('creates a customer', function (done) {
+    var tenantId;
+    this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
+    .then(function (tenant) {
+      tenantId = tenant.id;
+      request(app)
+        .post('/tenants/' + tenantId + "/customers")
+        .send({nombre_completo: "Pepito", rut: 15776844})
+        .expect(302, done)
+    });
+  });
+
+  it('forbids a duplicated customer rut for the same tenant', function (done) {
+    var tenantId;
+    this.models.Tenant.create({ email: 'tenant@tenant.com' }).bind(this)
+    .then(function (tenant) {
+      tenantId = tenant.id;
+      request(app)
+        .post('/tenants/' + tenantId + "/customers")
+        .send({nombre_completo: "Pepito", rut: 14569484})
+        .then(function() {
+          request(app)
+            .post('/tenants/' + tenantId + "/customers")
+            .send({nombre_completo: "Pepito 2", rut: 14569484})
+            .expect(403, done)
+        });
     });
   });
 });
