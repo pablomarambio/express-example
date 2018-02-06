@@ -8,11 +8,11 @@ block content
       div.col-md-5
         p
           | Para crear un cliente con nombre 
-          code "Jose Contreras"
+          kbd "Jose Contreras"
           |&nbsp;y RUT 
-          code 14.569.484-1
+          kbd 14.569.484-1
           |, bajo el tenant
-          code :tenant_id
+          kbd :tenant_id
           |, llamar a 
         p
           code POST /tenants/:tenant_id/customers
@@ -21,10 +21,12 @@ block content
       div.col-md-7
         p
           | Para listar todos los clientes del tenant
-          code :tenant_id
+          kbd :tenant_id
           |, llamar a 
         p
           code GET /tenants/:tenant_id/customers
+        a(href="/tenants/" + tenant.id + "/customers/",  class="btn btn-xs btn-info") llamar API
+
     div.row
       div.col-md-5
         h2 Crear cliente
@@ -39,7 +41,7 @@ block content
               | RUT (sin puntos, guión ni DV)
             input(type="text", name="rut", class="input-sm form-control")
           div(class="form-group")
-            input(type="submit", class="btn btn-md btn-primary", value="Crear")
+            input(type="submit", class="btn btn-md btn-primary", value="Crear en esta vista")
       div.col-md-7
         if tenant.Customers.length == 0
           h2 
@@ -61,3 +63,12 @@ block content
               td= cliente.rut
               td
                 a(href="/tenants/" + tenant.id + "/customers/" + cliente.id + "/destroy?return_to_tenant_view=1",  class="btn btn-sm btn-warning") borrar
+  script.
+    $(function(){
+      $("button#postApi").on("click", function(e) {
+        var action = $("form").attr("action");
+        alert(action);
+        e.preventDefault();
+      });
+    });
+
