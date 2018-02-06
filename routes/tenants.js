@@ -52,7 +52,7 @@ router.post('/:Tenant_id/customers', function (req, res) {
           TenantId: req.params.Tenant_id
         }).then((cust) => {
           if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
-          res.redirect('/' + req.params.Tenant_id + "/customers");
+          res.redirect('/tenants/' + req.params.Tenant_id + "/customers");
         });
       }
     })
@@ -61,7 +61,7 @@ router.post('/:Tenant_id/customers', function (req, res) {
       console.log(errMsg);
       req.flash('error', errMsg);
       if(req.query.return_to_tenant_view) { return res.redirect("/tenant-view/" + req.params.Tenant_id); }
-      res.redirect('/' + req.params.Tenant_id + "/customers");
+      return res.status(403).send(errMsg);
     });
 });
 
