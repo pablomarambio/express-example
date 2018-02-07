@@ -6,6 +6,7 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var routes = require('./routes/index');
 var tenants  = require('./routes/tenants');
@@ -30,6 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/tenants', tenants);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
