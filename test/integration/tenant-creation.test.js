@@ -4,6 +4,7 @@ var app      = require('../../app');
 var Bluebird = require('bluebird');
 var expect   = require('expect.js');
 var request  = require('supertest');
+var chai     = require('chai');
 
 describe('global', () => {
 
@@ -83,20 +84,35 @@ describe('global', () => {
         describe("create", () => {
 
           it("works with x-www-urlencoded", function(done) {
-            var tenantId;
-            tenantId = this.tenant.id;
+            var tenantId = this.tenant.id;
+
             request(app)
               .post('/tenants/' + tenantId + "/customers")
-              .send({nombre_completo: "Pepito", rut: 15776844})
-              .expect(302, done);
+              .set('Content-Type', 'application/x-www-form-urlencoded')
+              .send("nombre_completo=Pepito&rut=15776844")
+              .expect(302)
+              .then(()=>{
+                request(app)
+                  .get('/tenants/' + tenantId + "/customers")
+                  .expect(/Pepito/)
+                  .expect(/15776844/, done);
+              })
           });
 
           it('works with JSON', function (done) {
             var tenantId = this.tenant.id;
             request(app)
               .post('/tenants/' + tenantId + "/customers")
-              .send({nombre_completo: "Pepito", rut: 15776844})
-              .expect(302, done);
+              .set('Content-Type', 'application/json')
+              .send('{"nombre_completo": "Pepito", "rut": 15776844}')
+              .expect(302)
+              .then(()=>{
+                request(app)
+                  .get('/tenants/' + tenantId + "/customers")
+                  .expect(/Pepito/)
+                  .expect(/15776844/, done);
+              })
+
           });
 
           it('forbids a duplicated customer rut for the same tenant', function (done) {
